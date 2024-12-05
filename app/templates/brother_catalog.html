@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Brother Catalog</h1>
+  <form>
+    <label for="search">Enter Name or PC Year:</label>
+    <input type="text" id="search" name="search" required><br>
+
+    <button type="submit">Search</button>
+  </form>
+
+  <!-- Placeholder for results -->
+  <div id="results">
+    <p>Example Brother 1 - Profile</p>
+    <p>Example Brother 2 - Profile</p>
+  </div>
+{% endblock %}

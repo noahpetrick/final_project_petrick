@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>Module 3 - Runners Example</h1>
-<br>
-<img src="{{ url_for('static', filename='assets/tyler.jpg') }}" alt="Tyler with his cool Glasses" width="300">
-
+  <h1>Welcome to the Home Page!</h1>
+  <p>Leaderboard</p>
+  <!-- Placeholder leaderboard, you'll replace this with actual dynamic data later -->
+  <ul>
+    <li>Top Brother 1: 100 points</li>
+    <li>Top Brother 2: 90 points</li>
+    <li>Top Brother 3: 80 points</li>
+    <!-- Add more as needed -->
+  </ul>
 {% endblock %}

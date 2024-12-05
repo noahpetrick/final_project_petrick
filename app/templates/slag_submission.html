@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>SLAG Submission</h1>
+  <form>
+    <label for="accomplishment">What did you accomplish?</label>
+    <input type="text" id="accomplishment" name="accomplishment" required><br>
+
+    <label for="proof">Upload proof (image file):</label>
+    <input type="file" id="proof" name="proof"><br>
+
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

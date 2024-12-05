@@ -1,0 +1,26 @@
+Table: Users
+- user_id (int AI Primary Key): Unique identifier for each user
+- username (VARCHAR): Username of the user
+- password (VARCHAR): Password of the user
+- full_name (VARCHAR): Full name of the user
+- pledge_class_year (DATE): The year of the users pledge class
+- gpa (DECIMAL): Current GPA of the user
+- initiation_date (DATE): Date that the user was initiated
+- graduation_date (DATE): Date the user graduated or is expected to graduate
+- positions (TEXT): A list of positions the user has held
+- major_accomplishments (TEXT): A list of major accomplishments the user has achieved
+- profile_image_path (VARCHAR): Path to the users profile image
+- is_moderator (TINYINT): 1 if the user is a moderator, 0 if not
+
+Table: Slag_Submissions
+- submission_id (int AI Primary Key): Unique identifier for each submission
+- user_id (int Foreign Key): Links the submission to the user who submitted it
+- accomplishment_id (int Foreign Key): Links the submission to the accomplishment it is for
+- proof_image_path (VARCHAR): Path to the proof image of the submission
+- submission_date (TIMESTAMP): Date the submission was made
+
+Table: Accomplishments
+- accomplishment_id (int AI Primary Key): Unique identifier for each accomplishment
+- accomplishment_type (VARCHAR): Type of accomplishment
+- descriptions (VARCHAR): Description of the accomplishment
+- points (int): Points awarded for the accomplishment
