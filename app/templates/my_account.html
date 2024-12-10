@@ -1,10 +1,47 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h1>My Account</h1>
-  <p>Full Name: John Doe</p>
-  <p>Pledge Class Year: 2020</p>
-  <p>GPA: 3.5</p>
-  <p>SLAG Points: 120</p>
-  <button>Edit Profile</button>
+
+<div class="container mt-5">
+    <h2>My Account</h2>
+
+    <!-- Display user details in read-only mode -->
+    <div class="form-group">
+        <label>Profile Image</label>
+    </div>
+    <div class="form-group">
+        {% if user.profile_image %}
+            <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}" alt="Profile Image" style="width: 150px; height: 150px; border-radius: 50%;">
+        {% else %}
+            <img src="{{ url_for('static', filename='profile_images/default.png') }}" alt="Default Profile Image" style="width: 150px; height: 150px; border-radius: 50%;">
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label>Full Name</label>
+        <p>{{ user.full_name }}</p>
+    </div>
+
+    <div class="form-group">
+        <label>Pledge Class Year</label>
+        <p>{{ user.pledge_class_year }}</p>
+    </div>
+
+    <div class="form-group">
+        <label>GPA</label>
+        <p>{{ user.gpa }}</p>
+    </div>
+
+    <div class="form-group">
+        <label>Past and Present Positions</label>
+        <p>{{ user.positions }}</p>
+    </div>
+
+    <div class="form-group">
+        <label>Major Accomplishments & Awards</label>
+        <p>{{ user.major_accomplishments }}</p>
+    </div>
+
+    <!-- Button to go to the Edit Profile page -->
+    <a href="{{ url_for('users.my_account_edit') }}" class="btn btn-warning">Edit Profile</a>
+
+</div>
 {% endblock %}

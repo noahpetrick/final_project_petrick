@@ -1,10 +1,8 @@
 import pymysql
-import pymysql.cursors
 from flask import g
 
 def get_db():
-    if 'db' not in g or not is_connection_open(g.db):
-        print("Re-establishing closed database connection.")
+    if 'db' not in g:
         g.db = pymysql.connect(
             # Database configuration
             # Configure MySQL
@@ -23,11 +21,7 @@ def is_connection_open(conn):
     except:
         return False
 
-def close_db(exception=None):
+def close_db():
     db = g.pop('db', None)
-    if db is not None and not db._closed:
-        print("Closing database connection.")
+    if db:
         db.close()
-
-
-

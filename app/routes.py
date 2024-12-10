@@ -1,22 +1,23 @@
-from flask import render_template
+from flask import render_template, redirect, session, url_for
 from . import app
+from app.functions import get_leaderboard
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if not session.get('logged_in', False):
+        return redirect(url_for('auth.login'))
 
-@app.route('/slag_submission')
-def slag_submission():
-    return render_template('slag_submission.html')
+    # Fetch top-ranked brothers (all for the leaderboard)
+    leaderboard_data = get_leaderboard(per_page=100)  # Adjust the per_page as needed
 
-@app.route('/brother_catalog')
-def brother_catalog():
-    return render_template('brother_catalog.html')
+    # Separate top 3 and remaining brothers
+    top_3 = leaderboard_data[:3] if len(leaderboard_data) >= 3 else leaderboard_data
+    remaining = leaderboard_data[3:] if len(leaderboard_data) > 3 else []
 
-@app.route('/update_slag')
-def update_slag():
-    return render_template('update_slag.html')
+    # Pass all necessary data to the template
+    return render_template('index.html', top_3=top_3, remaining=remaining)
 
-@app.route('/my_account')
-def my_account():
-    return render_template('my_account.html')
+@app.context_processor
+def inject_is_logged_in():
+    return {'is_logged_in': session.get('logged_in', False)}
+

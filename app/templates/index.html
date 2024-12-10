@@ -1,13 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Welcome to the Home Page!</h1>
-  <p>Leaderboard</p>
-  <!-- Placeholder leaderboard, you'll replace this with actual dynamic data later -->
-  <ul>
-    <li>Top Brother 1: 100 points</li>
-    <li>Top Brother 2: 90 points</li>
-    <li>Top Brother 3: 80 points</li>
-    <!-- Add more as needed -->
-  </ul>
+<div class="leaderboard">
+    <h2>Leaderboard</h2>
+
+    <!-- Top 3 Highlighted -->
+    <div class="top-3">
+        {% for brother in top_3 %}
+        <div class="platform platform-{{ loop.index }}">
+            <!-- Check if profile_image is None and use a default image if so -->
+            <img class="rounded-image" src="{{ url_for('static', filename='profile_images/' + (brother.profile_image if brother.profile_image else 'default_profile.jpg')) }}" alt="{{ brother.full_name }}" width="150" height="150">
+            <p>{{ brother.full_name }}</p>
+            <p>Total SLAG Points: {{ brother.total_points }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Remaining Brothers -->
+    <ul class="remaining-leaderboard">
+        {% for brother in remaining %}
+        <li>
+            <span>{{ loop.index + 3 }}. {{ brother.full_name }}</span>
+            <span>Total SLAG Points: {{ brother.total_points }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+    .rounded-image {
+        border-radius: 50%;
+    }
+</style>
 {% endblock %}

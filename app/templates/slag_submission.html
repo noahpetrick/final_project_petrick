@@ -2,13 +2,121 @@
 
 {% block content %}
   <h1>SLAG Submission</h1>
-  <form>
-    <label for="accomplishment">What did you accomplish?</label>
-    <input type="text" id="accomplishment" name="accomplishment" required><br>
 
-    <label for="proof">Upload proof (image file):</label>
-    <input type="file" id="proof" name="proof"><br>
+  <!-- Display user's total points -->
+  <h2>Your Current Total Points: {{ total_points }}</h2>
 
-    <button type="submit">Submit</button>
-  </form>
+  <!-- Button to trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#slagModal">
+    Submit New SLAG
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="slagModal" tabindex="-1" aria-labelledby="slagModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="slagModalLabel">Submit New SLAG</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Form for submitting new SLAG -->
+          <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="accomplishment_type">Select Accomplishment</label>
+              <select name="accomplishment_type" id="accomplishment_type" class="form-control" required>
+                {% for accomplishment in accomplishments %}
+                <option value="{{ accomplishment.description }}">{{ accomplishment.description }} ({{ accomplishment.points }} points)</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="proof_image">Upload Proof (Optional):</label>
+              <input type="file" name="proof_image" id="proof_image" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Display existing submissions -->
+<h2>Your Submissions</h2>
+{% if user_submissions %}
+<ul>
+  {% for submission in user_submissions %}
+  <li>
+    {{ submission.accomplishment_description }}
+    {% if submission.proof_image %}
+    (<a href="{{ url_for('static', filename='proof_images/' + submission.proof_image) }}">View Proof</a>)
+    {% endif %}
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editSlagModal-{{ submission.submission_id }}">
+        Edit
+      </button>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>You have no submissions yet.</p>
+{% endif %}
+
+{% for submission in user_submissions %}
+<div class="modal fade" id="editSlagModal-{{ submission.submission_id }}" tabindex="-1" aria-labelledby="editSlagModalLabel-{{ submission.submission_id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editSlagModalLabel-{{ submission.submission_id }}">Edit SLAG</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form for editing SLAG -->
+        <form method="POST" action="{{ url_for('slags.edit_slag', submission_id=submission.submission_id) }}" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="accomplishment_type-{{ submission.submission_id }}">Select Accomplishment</label>
+            <select name="accomplishment_type" id="accomplishment_type-{{ submission.submission_id }}" class="form-control" required>
+              {% for accomplishment in accomplishments %}
+              {% set selected = 'selected' if accomplishment.description == submission.accomplishment_description else '' %}
+                <option value="{{ accomplishment.description }}" {{ selected }}>
+                  {{ accomplishment.description }} ({{ accomplishment.points }} points)
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="proof_image-{{ submission.submission_id }}">Upload Proof (Optional):</label>
+            <input type="file" name="proof_image" id="proof_image-{{ submission.submission_id }}" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+        <form action="{{ url_for('slags.delete_slag', submission_id=submission.submission_id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this submission?');">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<style>
+    .button-group {
+      display: flex;
+      gap: 10px; /* Adjust the gap as needed */
+    }
+
+    .button-group a,
+    .button-group form {
+      display: inline-block;
+    }
+</style>
+
 {% endblock %}
+

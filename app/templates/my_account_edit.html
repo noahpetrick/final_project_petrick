@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Edit My Account</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="profile_image">Profile Image</label>
+            <input type="file" class="form-control" name="profile_image" id="profile_image">
+        </div>
+        <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input type="text" class="form-control" name="full_name" id="full_name" value="{{ user.full_name }}">
+        </div>
+
+        <div class="form-group">
+            <label for="pledge_class_year">Pledge Class Year</label>
+            <input type="text" class="form-control" name="pledge_class_year" id="pledge_class_year" value="{{ user.pledge_class_year }}">
+        </div>
+
+        <div class="form-group">
+            <label for="gpa">GPA</label>
+            <input type="text" class="form-control" name="gpa" id="gpa" value="{{ user.gpa }}">
+        </div>
+
+        <div class="form-group">
+            <label for="initiation_date">Initiation Date</label>
+            <input type="date" class="form-control" name="initiation_date" id="initiation_date" value="{{ user.initiation_date }}">
+        </div>
+
+        <div class="form-group">
+            <label for="graduation_date">Graduation Date</label>
+            <input type="date" class="form-control" name="graduation_date" id="graduation_date" value="{{ user.graduation_date }}">
+        </div>
+
+        <!-- Positions (text input) -->
+        <div class="form-group">
+            <label for="positions">Positions</label>
+            <input type="text" class="form-control" name="positions" id="positions" value="{{ user.positions }}">
+            <small class="form-text text-muted">Enter positions separated by commas (e.g., President, Treasurer).</small>
+        </div>
+
+        <!-- Major Accomplishments -->
+        <div class="form-group">
+            <label for="major_accomplishments">Major Accomplishments</label>
+            <textarea class="form-control" name="major_accomplishments" id="major_accomplishments" rows="4">{{ user.major_accomplishments }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location='{{ url_for('users.my_account') }}'">Cancel</button>
+    </form>
+</div>
+
+{% endblock %}
+

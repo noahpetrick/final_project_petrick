@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ brother.full_name }}</h2>
+    <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" alt="Profile Image" style="width: 150px; height: 150px; border-radius: 50%;">
+    <p><strong>Pledge Class Year:</strong> {{ brother.pledge_class_year }}</p>
+    <p><strong>GPA:</strong> {{ brother.gpa }}</p>
+    <p><strong>Initiation Date:</strong> {{ brother.initiation_date }}</p>
+    <p><strong>Graduation Date:</strong> {{ brother.graduation_date }}</p>
+    <p><strong>Positions:</strong> {{ brother.positions }}</p>
+    <p><strong>Major Accomplishments:</strong> {{ brother.major_accomplishments }}</p>
+    <p><strong>Total SLAG Points:</strong> {{ total_points }}</p>
+</div>
+{% endblock %}
