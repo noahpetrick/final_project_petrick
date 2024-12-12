@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container mt-5">
-    <h2>Edit My Account</h2>
+<div class="container mt-5 text-center">
+    <h2>Update Account Information</h2>
+</div>
 
+<div>
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="profile_image">Profile Image</label>
@@ -47,8 +49,11 @@
             <textarea class="form-control" name="major_accomplishments" id="major_accomplishments" rows="4">{{ user.major_accomplishments }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <button type="button" class="btn btn-secondary" onclick="window.location='{{ url_for('users.my_account') }}'">Cancel</button>
+        <div style="text-align: center; margin-bottom: 20px;" >
+            <button type="submit" class="btn btn-primary" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Save Changes</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location='{{ url_for('users.my_account') }}'">Cancel</button>
+        </div>
+
     </form>
 </div>
 

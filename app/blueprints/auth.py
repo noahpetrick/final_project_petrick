@@ -27,7 +27,7 @@ def login():
         else:
             flash('Invalid username or password.', 'danger')
 
-    return render_template('login.html')
+    return render_template('greetings.html')
 
 @auth.route('/logout')
 def logout():
@@ -53,4 +53,4 @@ def create_account():
         except Exception as e:
             flash(f'Error creating account: {str(e)}', 'danger')
 
-    return render_template('create_account.html')
+    return render_template('greetings.html')

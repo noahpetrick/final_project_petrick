@@ -17,6 +17,10 @@ def index():
     # Pass all necessary data to the template
     return render_template('index.html', top_3=top_3, remaining=remaining)
 
+@app.route('/greetings')
+def greetings():
+    return render_template('greetings.html')
+
 @app.context_processor
 def inject_is_logged_in():
     return {'is_logged_in': session.get('logged_in', False)}

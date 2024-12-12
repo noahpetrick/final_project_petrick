@@ -10,6 +10,7 @@ Flask-Migrate==4.0.7
 Flask-SQLAlchemy==3.1.1
 Flask-Uploads==0.2.1
 Flask-WTF==1.2.2
+fontawesome==5.10.1.post1
 gunicorn==23.0.0
 itsdangerous==2.2.0
 Jinja2==3.1.4
@@ -24,6 +25,7 @@ python-dateutil==2.9.0.post0
 pytz==2024.2
 six==1.17.0
 SQLAlchemy==2.0.36
+tailwindcss==0.0.1
 typing_extensions==4.12.2
 tzdata==2024.2
 Werkzeug==3.0.4

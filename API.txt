@@ -1,0 +1,25 @@
+For this project, I did a whole bunch of cool stuff.
+
+Initially, I couldn't figure out how to use Modals in order to make a more user-friendly graphical interface.
+And even when I did, I wasn't confident enough to use them consistently. However, when I finally started to get good
+at using modals, I used the heck out of them.
+You'll see that most of my pages use models to display all types of information and forms. They are super helpful, and
+they make for a cleaner/more organized look.
+
+In terms of API, I would say that my user login and admin login features are the most notable. It took a lot of trial and error with
+my database structure, my functions, and my blueprints in order to get the authentication features to work. But boy was it satisfying
+when I finally got it. The leader board on the home page was also a really cool feature that I added. I used a few different libraries
+to get that up and running.
+
+Also, my image file features are also pretty notable.
+I expected to have a lot of trouble with trying to implement a feature that allows users to upload files for profile images, as well as
+SLAG submissions. But it was easier than anticipated. This app allows users to submit and view images with ease. I'm pretty proud of that.
+
+Although this is my final project, I fully plan on continuing my work with this app. I want to first add some more features that
+I think are necessary for a fully functional app. And eventually, I want to convert this application into a mobile app for my
+fraternity.
+
+Anyways, please give me feedback on my project. Any tips or sugestions would be much appreciated. I'm looking for anyway that I can
+improve the work I've got.
+
+Thanks for a great semester, Dr. Marshall!

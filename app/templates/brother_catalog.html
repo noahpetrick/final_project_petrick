@@ -1,32 +1,79 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
 {% block content %}
-<div class="container mt-5">
-    <h2>Brother Catalog</h2>
-    <form method="POST" class="form-inline mb-4">
-        <div class="form-group">
-            <input type="text" class="form-control" name="search_term" placeholder="Search by name or pledge class year">
+<div class="d-flex justify-content-center align-items-center vh-100" style="margin-top: -100px;">
+    <div class="text-center">
+        <h2 class="text-center mb-4" style="font-size: 4rem; color: #BFA100;">Brother Catalog</h2>
+        <form method="POST" class="form-inline justify-content-center mb-4">
+            <div class="form-group mr-2">
+                <input type="text" class="form-control" name="search_term" placeholder="Search by name or pledge class year (i.e. 'Robertson Howard' or '1868')" style="width: 550px;">
+            </div>
+            <button type="submit" class="btn" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Search</button>
+        </form>
+        {% if results %}
+        <div class="list-group">
+            {% for brother in results %}
+            <div class="list-group-item list-group-item-action d-flex align-items-center" style="font-size: 1.25rem; cursor: pointer;" onclick="loadBrotherDetails({{ brother.user_id }})">
+                <div class="mr-3" style="text-decoration: underline;">
+                    <strong>{{ brother.pledge_class_year }}</strong>
+                </div>
+                <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" alt="Profile Picture" class="rounded-circle mr-3" width="90" height="90">
+                <div>
+                    <h5 class="mb-1">{{ brother.full_name }}</h5>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <div class="form-group ml-2">
-            <select class="form-control" name="search_type">
-                <option value="name_fragment">Name</option>
-                <option value="pledge_class_year">Pledge Class Year</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary ml-2">Search</button>
-    </form>
-
-{% if results %}
-    <ul>
-        {% for brother in results %}
-            <li>
-                <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" alt="Profile Picture" width="50" height="50">
-                <a href="{{ url_for('brother_catalog.brother_detail', user_id=brother['user_id']) }}">{{ brother.full_name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No results found</p>
-{% endif %}
-
+        {% else %}
+        <p class="text-center mt-4">No results found</p>
+        {% endif %}
+    </div>
 </div>
+
+<!-- Add this modal structure at the end of the body -->
+<div class="modal fade" id="brotherDetailModal" tabindex="-1" role="dialog" aria-labelledby="brotherDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: #BFA100;" id="brotherDetailModalLabel">Brother Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Brother details will be loaded here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    h2 {
+        font-family: 'Lora', serif;
+    }
+</style>
+
+<script>
+  function loadBrotherDetails(userId) {
+    console.log('Loading details for user:', userId); // Log the user ID
+    $.ajax({
+      url: `/brother_detail/${userId}`,
+      method: 'GET',
+      success: function(data) {
+        console.log('Data loaded successfully'); // Log success
+        $('#brotherDetailModal .modal-body').html(data);
+        $('#brotherDetailModal').modal('show');
+      },
+      error: function() {
+        console.error('Failed to load brother details.'); // Log error
+        alert('Failed to load brother details.');
+      }
+    });
+  }
+
+  // Manually trigger the modal to check if it works
+  $(document).ready(function() {
+    $('#brotherDetailModal').modal('show');
+  });
+</script>
 {% endblock %}

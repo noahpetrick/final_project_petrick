@@ -2,68 +2,98 @@
 
 {% block navbar %}
 <!-- Admin-specific navbar -->
-<nav class="navbar">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #9A2A2A;">
     <a class="navbar-brand" href="{{ url_for('admin.view_users') }}">Admin Dashboard</a>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin.view_users') }}">Manage Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
-        </li>
-    </ul>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin.view_users') }}">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 {% endblock %}
 
 {% block content %}
-<div class="mt-4">
-    <h1>Manage Users</h1>
+<div class="d-flex justify-content-center align-items-center vh-100" style="margin-top: -150px;">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4" style="color: #BFA100; font-family: 'Lora', serif;">Manage Users</h1>
 
-    <!-- Sorting options -->
-    <div class="mb-3">
-        <a href="{{ url_for('admin.view_users', sort_by='name') }}" class="btn btn-secondary {% if request.args.get('sort_by') == 'name' %}active{% endif %}">Sort by Name</a>
-        <a href="{{ url_for('admin.view_users', sort_by='pledge_class_year') }}" class="btn btn-secondary {% if request.args.get('sort_by') == 'pledge_class_year' %}active{% endif %}">Sort by Pledge Class Year</a>
-        <a href="{{ url_for('admin.view_users', sort_by='total_points') }}" class="btn btn-secondary {% if request.args.get('sort_by') == 'total_points' %}active{% endif %}">Sort by Total SLAG Points</a>
-        <a href="{{ url_for('admin.view_users', sort_by='recent_submission') }}" class="btn btn-secondary {% if request.args.get('sort_by') == 'recent_submission' %}active{% endif %}">Sort by Most Recent Submission</a>
-    </div>
+        <!-- Sorting options -->
+        <div class="d-flex justify-content-center mb-4">
+            <a href="{{ url_for('admin.view_users', sort_by='name') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'name' %}active{% endif %}">Sort by Name</a>
+            <a href="{{ url_for('admin.view_users', sort_by='pledge_class_year') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'pledge_class_year' %}active{% endif %}">Sort by Pledge Class Year</a>
+            <a href="{{ url_for('admin.view_users', sort_by='total_points') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'total_points' %}active{% endif %}">Sort by Total SLAG Points</a>
+            <a href="{{ url_for('admin.view_users', sort_by='recent_submission') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'recent_submission' %}active{% endif %}">Sort by Most Recent Submission</a>
+        </div>
 
-    <table class="table table-striped mt-4">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Pledge Class Year</th>
-                <th>Total SLAG Points</th>
-                <th>Most Recent Submission</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.user_id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.full_name }}</td>
-                <td>{{ user.pledge_class_year }}</td>
-                <td>{{ user.total_points }}</td>
-                <td>
-                    {% if user.recent_submission_date %}
-                        {{ user.recent_submission_date.strftime('%Y-%m-%d') }}
-                    {% else %}
-                        No submissions
+        <table class="table table-hover table-bordered">
+            <thead class="thead" style="color: #BFA100; background-color: #FFFFFF;">
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Pledge Class Year</th>
+                    <th>Total SLAG Points</th>
+                    <th>Most Recent Submission</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    {% if user.user_id != 5 %}
+                        <tr>
+                            <td>{{ user.user_id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.full_name }}</td>
+                            <td>{{ user.pledge_class_year }}</td>
+                            <td>{{ user.total_points }}</td>
+                            <td>
+                                {% if user.recent_submission_date %}
+                                    {{ user.recent_submission_date.strftime('%Y-%m-%d') }}
+                                {% else %}
+                                    No submissions
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-around">
+                                    <a href="{{ url_for('admin.view_user_submissions', user_id=user.user_id) }}" class="btn btn-sm mx-1" style="color: #FFFFFF; background-color: #9A2A2A;" >View SLAGS</a>
+                                    <form action="{{ url_for('admin.delete_user', user_id=user.user_id) }}" method="post" style="display:inline;">
+                                        <button class="btn btn-danger btn-med mx-1" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     {% endif %}
-                </td>
-                <td>
-                    <a href="{{ url_for('admin.view_user_submissions', user_id=user.user_id) }}" class="btn btn-primary btn-sm">View Submissions</a>
-                    <form action="{{ url_for('admin.delete_user', user_id=user.user_id) }}" method="post" style="display:inline;">
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<style>
+    .btn-outline-secondary.active {
+        background-color: #BFA100;
+        color: white;
+    }
+
+    .table {
+        th:nth-child(1), td:nth-child(1), /* User ID column */
+        th:nth-child(2), td:nth-child(2)  /* Username column */ {
+            display: none;
+    }
+
+    .thead th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+</style>
 
 {% endblock %}

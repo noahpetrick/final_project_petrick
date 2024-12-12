@@ -1,14 +1,21 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container mt-5">
-    <h2>{{ brother.full_name }}</h2>
-    <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" alt="Profile Image" style="width: 150px; height: 150px; border-radius: 50%;">
-    <p><strong>Pledge Class Year:</strong> {{ brother.pledge_class_year }}</p>
-    <p><strong>GPA:</strong> {{ brother.gpa }}</p>
-    <p><strong>Initiation Date:</strong> {{ brother.initiation_date }}</p>
-    <p><strong>Graduation Date:</strong> {{ brother.graduation_date }}</p>
-    <p><strong>Positions:</strong> {{ brother.positions }}</p>
-    <p><strong>Major Accomplishments:</strong> {{ brother.major_accomplishments }}</p>
-    <p><strong>Total SLAG Points:</strong> {{ total_points }}</p>
+<div class="container mt-3">
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" class="card-img" alt="Profile Image" style="border-radius: 50%; margin: 20px; width: 300px; height: 300px;">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">{{ brother.full_name }}</h2>
+                    <p class="card-text"><strong>Total SLAG Points:</strong> {{ total_points }}</p>
+                    <p class="card-text"><strong>Pledge Class Year:</strong> {{ brother.pledge_class_year }}</p>
+                    <p class="card-text"><strong>GPA:</strong> {{ brother.gpa }}</p>
+                    <p class="card-text"><strong>Initiation Date:</strong> {{ brother.initiation_date.strftime('%B %d, %Y') }}</p>
+                    <p class="card-text"><strong>Graduation Date:</strong> {{ brother.graduation_date.strftime('%B %d, %Y') }}</p>
+                    <p class="card-text"><strong>Positions:</strong> {{ brother.positions }}</p>
+                    <p class="card-text"><strong>Major Accomplishments:</strong> {{ brother.major_accomplishments }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}

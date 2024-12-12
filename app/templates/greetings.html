@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="text-center">
+        <h1>Welcome to ΠΚΑ SLAGS</h1>
+        <p class="lead">Connecting Brothers, Sharing Achievements</p>
+
+        <!-- Login Button -->
+        <button type="button" class="btn btn-lg mx-2" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;" data-toggle="modal" data-target="#loginModal">
+            Log In
+        </button>
+
+        <!-- Create Account Button -->
+        <button type="button" class="btn btn-lg mx-2" style="color: #FFFFFF; background-color: #BFA100; border-color: #BFA100;" data-toggle="modal" data-target="#createAccountModal">
+            Create Account
+        </button>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: #BFA100;">
+                <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" class="form-control" id="loginUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="btn" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Account Modal -->
+<div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog" aria-labelledby="createAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: #BFA100;">
+                <h5 class="modal-title" id="createAccountModalLabel">Create Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('auth.create_account') }}">
+                    <div class="form-group">
+                        <label for="createUsername">Username</label>
+                        <input type="text" class="form-control" id="createUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createPassword">Password</label>
+                        <input type="password" class="form-control" id="createPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createFullName">Full Name</label>
+                        <input type="text" class="form-control" id="createFullName" name="full_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createPledgeClassYear">Pledge Class Year</label>
+                        <input type="number" class="form-control" id="createPledgeClassYear" name="pledge_class_year" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createGpa">GPA</label>
+                        <input type="number" step="0.01" class="form-control" id="createGpa" name="gpa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createInitiationDate">Initiation Date</label>
+                        <input type="date" class="form-control" id="createInitiationDate" name="initiation_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createGraduationDate">Graduation Date</label>
+                        <input type="date" class="form-control" id="createGraduationDate" name="graduation_date" required>
+                    </div>
+                    <button type="submit" class="btn" style="color: #FFFFFF; background-color: #BFA100; border-color: #BFA100;">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    h1 {
+        font-family: 'Lora', serif;
+        color: #BFA100;
+        font-size: 4rem;
+    }
+</style>
+
+{% endblock %}

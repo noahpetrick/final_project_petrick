@@ -1,35 +1,160 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="leaderboard">
-    <h2>Leaderboard</h2>
+<div class="d-flex justify-content-center align-items-center vh-100" style="margin-top: -100px;">
+    <div class="leaderboard container my-5">
+        <h2 class="text-center" style="font-size: 4rem; color: #BFA100;">Scholars - Leaders - Athletes - Gentlemen</h2>
+        <p class="text-center text-muted">Celebrating the Lead-Ranking Brothers</p>
+        <hr class="my-4">
 
-    <!-- Top 3 Highlighted -->
-    <div class="top-3">
-        {% for brother in top_3 %}
-        <div class="platform platform-{{ loop.index }}">
-            <!-- Check if profile_image is None and use a default image if so -->
-            <img class="rounded-image" src="{{ url_for('static', filename='profile_images/' + (brother.profile_image if brother.profile_image else 'default_profile.jpg')) }}" alt="{{ brother.full_name }}" width="150" height="150">
-            <p>{{ brother.full_name }}</p>
-            <p>Total SLAG Points: {{ brother.total_points }}</p>
+        <!-- Top 3 Podium -->
+        <div class="d-flex justify-content-center align-items-end text-center mb-5 gap-3">
+            {% for brother in top_3 %}
+            <div class="platform platform-{{ loop.index }} d-flex flex-column align-items-center">
+                <!-- Highlighted podium design -->
+                <div class="podium">
+                    <span class="place-tag">{{ loop.index }}{{ "st" if loop.index == 1 else "nd" if loop.index == 2 else "rd" }}</span>
+                    <img class="rounded-circle mb-3"
+                         src="{{ url_for('static', filename='profile_images/' + (brother.profile_image if brother.profile_image else 'default_profile.jpg')) }}"
+                         alt="{{ brother.full_name }}"
+                         width="150"
+                         height="150">
+                    <h4 class="font-weight-bold">{{ brother.full_name }}</h4>
+                    <p class="text-muted">Total SLAG Points: <span class="text-muted-points"><strong> {{ brother.total_points }} </strong></span></p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
 
-    <!-- Remaining Brothers -->
-    <ul class="remaining-leaderboard">
-        {% for brother in remaining %}
-        <li>
-            <span>{{ loop.index + 3 }}. {{ brother.full_name }}</span>
-            <span>Total SLAG Points: {{ brother.total_points }}</span>
-        </li>
-        {% endfor %}
-    </ul>
+        <!-- Remaining Brothers -->
+        <div class="table-responsive">
+            <h3 class="text-center" style="color: #BFA100; font-family: 'Lora', serif; font-size: 3rem;">Brother Rankings</h3>
+            <table class="table table-hover">
+                <thead class="thead" style="background-color: #9A2A2A;">
+                    <tr>
+                        <th>#</th>
+                        <th>Brother</th>
+                        <th>Total Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for brother in remaining %}
+                        {% if brother.user_id != 5 %}
+                            <tr>
+                                <td>{{ loop.index + 3 }}</td>
+                                <td>{{ brother.full_name }}</td>
+                                <td>{{ brother.total_points }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <style>
-    .rounded-image {
+    .top-3 {
+        display: flex;
+        justify-content: space-evenly; /* Space out the podiums evenly */
+        align-items: flex-end; /* Align the podiums based on their heights */
+        margin-top: 30px;
+        gap: 20px; /* Add spacing between podiums */
+    }
+
+    .place-tag {
+        position: absolute;
+        top: -20px; /* Position above the podium */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333; /* Sleek dark background */
+        color: #fff; /* White text for contrast */
+        font-weight: bold;
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+    }
+
+    .platform {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 250px; /* Consistent width */
+        height: 250px; /* Consistent height */
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+        margin: 20px;
+    }
+
+    .platform-1 {
+        background-color: silver;
+    }
+
+    .platform-2 {
+        background-color: silver;
+    }
+
+    .platform-3 {
+        background-color: silver;
+    }
+
+    .platform img {
         border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        border: 3px solid white;
+        margin-bottom: 10px;
+    }
+
+    .platform p {
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    .leaderboard h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+     .table-responsive {
+        margin-top: 30px;
+    }
+
+    .table thead th {
+        background-color: #9A2A2A; /* Dark grey background for table header */
+        color: #BFA100; /* White font color for table header */
+        font-weight: bold;
+    }
+
+    .table tbody tr:hover {
+        background-color: #9A2A2A; /* Light grey background on hover */
+    }
+
+    .table tbody td {
+        color: #343a40; /* Dark grey font color for table body */
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #9A2A2A; /* Light grey background for even rows */
+    }
+
+    .table tbody tr:nth-child(odd) {
+        background-color: #ffffff; /* White background for odd rows */
+    }
+    .text-muted-points {
+        color: #000000; /* Dark grey font color for muted text */
+    }
+
+    h2 {
+        font-family: 'Lora', serif;
     }
 </style>
 {% endblock %}
+
