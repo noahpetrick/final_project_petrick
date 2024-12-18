@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" class="card-img" alt="Profile Image" style="border-radius: 50%; margin: 20px; width: 300px; height: 300px;">
+                <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" class="card-img" alt="Profile Image" style="bborder-radius: 50%; margin: 20px; width: 100%; max-width: 300px; height: auto;">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -21,12 +21,21 @@
 </div>
 
 <style>
+    .card-img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+    }
+
     @media (max-width: 768px) {
         .card-title {
             font-size: 1.5rem;
         }
         .card-text {
             font-size: 1rem;
+        }
+        .card-img {
+            margin: 10px auto;
         }
     }
 
@@ -36,6 +45,9 @@
         }
         .card-text {
             font-size: 0.9rem;
+        }
+        .card-img {
+            margin: 10px auto;
         }
     }
 </style>

@@ -3,9 +3,16 @@
 {% block content %}
 <div class="container my-5">
     <h2 class="text-center mb-4" style="font-size: 4rem; color: #BFA100;">Brother Catalog</h2>
-    <form method="POST" class="form-inline justify-content-center mb-4">
-        <div class="form-group mr-2">
-            <input type="text" class="form-control" name="search_term" placeholder="Search by name or pledge class year (i.e. 'Robertson Howard' or '1868')" style="width: 550px;">
+    <form method="POST" class="form-inline justify-content-center mb-4" style="position: relative;">
+        <div class="form-group mr-2" style="position: relative;">
+            <input
+                type="text"
+                class="form-control"
+                name="search_term"
+                style="width: 450px; position: relative; z-index: 1;">
+            <div class="placeholder-wrapper">
+                <span class="placeholder-text">Search by name or pledge class year</span>
+            </div>
         </div>
         <button type="submit" class="btn" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Search</button>
     </form>
@@ -68,29 +75,108 @@
             font-size: 1.5rem;
         }
     }
+
+    .placeholder-wrapper {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        width: calc(450px - 20px); /* Match input width minus padding */
+        height: 100%;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    /* Placeholder text */
+    .placeholder-text {
+        display: block;
+        transform: translateY(0);
+        opacity: 1;
+        animation: scrollPlaceholder 7s ease-in-out infinite;
+        color: #6c757d;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+
+    /* Placeholder animation */
+    @keyframes scrollPlaceholder {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        75% {
+            opacity: 1;
+        }
+        80% {
+            opacity: 0;
+        }
+        85% {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        90% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .form-control {
+        position: relative;
+        z-index: 2; /* Ensure input is above placeholder */
+        background-color: transparent;
+        color: #343a40;
+        padding-left: 10px;
+        height: 40px;
+    }
 </style>
 
 <script>
-  function loadBrotherDetails(userId) {
-    console.log('Loading details for user:', userId); // Log the user ID
-    $.ajax({
-      url: `/brother_detail/${userId}`,
-      method: 'GET',
-      success: function(data) {
-        console.log('Data loaded successfully'); // Log success
-        $('#brotherDetailModal .modal-body').html(data);
-        $('#brotherDetailModal').modal('show');
-      },
-      error: function() {
-        console.error('Failed to load brother details.'); // Log error
-        alert('Failed to load brother details.');
-      }
-    });
-  }
+    function loadBrotherDetails(userId) {
+        console.log('Loading details for user:', userId); // Log the user ID
+        $.ajax({
+            url: `/brother_detail/${userId}`,
+            method: 'GET',
+            success: function(data) {
+                console.log('Data loaded successfully'); // Log success
+                $('#brotherDetailModal .modal-body').html(data);
+                $('#brotherDetailModal').modal('show');
+            },
+            error: function() {
+                console.error('Failed to load brother details.'); // Log error
+                alert('Failed to load brother details.');
+            }
+        });
+    }
 
-  // Manually trigger the modal to check if it works
-  $(document).ready(function() {
-    $('#brotherDetailModal').modal('show');
-  });
+    document.addEventListener('DOMContentLoaded', function () {
+        const placeholderText = document.querySelector('.placeholder-text');
+
+        // Define placeholders to cycle through
+        const placeholders = [
+            "Search by name or pledge class year",
+            "(i.e. 'Robertson Howard' or '1868')"
+        ];
+
+        let currentIndex = 0;
+
+        function updatePlaceholder() {
+            // Update text when it's fully off-screen
+            setTimeout(() => {
+                placeholderText.style.opacity = "0"; // Make sure it's invisible
+                currentIndex = (currentIndex + 1) % placeholders.length;
+                setTimeout(() => {
+                    placeholderText.textContent = placeholders[currentIndex];
+                    placeholderText.style.opacity = "1"; // Restore visibility
+                }, 500); // Sync with opacity transition
+            }, 5500); // Adjust timing to match the hidden phase
+        }
+
+        // Run text update at every off-screen point
+        setInterval(updatePlaceholder, 7000); // Match CSS animation duration
+    });
 </script>
 {% endblock %}
