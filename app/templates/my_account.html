@@ -1,50 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="d-flex justify-content-center align-items-center vh-100" style="margin-top: -150px;">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        {% if user.profile_image %}
-                            <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}" alt="Profile Image" class="img-fluid rounded-circle mb-3" style="width: 200px; height: 200px;">
-                        {% else %}
-                            <img src="{{ url_for('static', filename='profile_images/default.png') }}" alt="Default Profile Image" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
-                        {% endif %}
-                        <a href="{{ url_for('users.my_account_edit') }}" class="btn btn-warning btn-block" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Update Profile</a>
-                    </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <div class="card">
+                <div class="card-body">
+                    {% if user.profile_image %}
+                        <img src="{{ url_for('static', filename='profile_images/' + user.profile_image) }}" alt="Profile Image" class="img-fluid rounded-circle mb-3" style="width: 200px; height: 200px;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='profile_images/default.png') }}" alt="Default Profile Image" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    {% endif %}
+                    <a href="{{ url_for('users.my_account_edit') }}" class="btn btn-warning btn-block" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Update Profile</a>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Account Information</h4>
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <p>{{ user.full_name }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Pledge Class Year</label>
-                            <p>{{ user.pledge_class_year }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label>GPA</label>
-                            <p>{{ user.gpa }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Past and Present Positions</label>
-                            <p>{{ user.positions }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Major Accomplishments & Awards</label>
-                            <p>{{ user.major_accomplishments }}</p>
-                        </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Account Information</h4>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <p>{{ user.full_name }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Pledge Class Year</label>
+                        <p>{{ user.pledge_class_year }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>GPA</label>
+                        <p>{{ user.gpa }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Past and Present Positions</label>
+                        <p>{{ user.positions }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Major Accomplishments & Awards</label>
+                        <p>{{ user.major_accomplishments }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    @media (max-width: 768px) {
+        .card-title {
+            font-size: 1.5rem;
+        }
+        .form-group p {
+            font-size: 1rem;
+        }
+        .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-title {
+            font-size: 1.2rem;
+        }
+        .form-group p {
+            font-size: 0.9rem;
+        }
+    }
+</style>
 
 {% endblock %}

@@ -1,33 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100" style="margin-top: -100px;">
-    <div class="text-center">
-        <h2 class="text-center mb-4" style="font-size: 4rem; color: #BFA100;">Brother Catalog</h2>
-        <form method="POST" class="form-inline justify-content-center mb-4">
-            <div class="form-group mr-2">
-                <input type="text" class="form-control" name="search_term" placeholder="Search by name or pledge class year (i.e. 'Robertson Howard' or '1868')" style="width: 550px;">
-            </div>
-            <button type="submit" class="btn" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Search</button>
-        </form>
-        {% if results %}
-        <div class="list-group">
-            {% for brother in results %}
-            <div class="list-group-item list-group-item-action d-flex align-items-center" style="font-size: 1.25rem; cursor: pointer;" onclick="loadBrotherDetails({{ brother.user_id }})">
-                <div class="mr-3" style="text-decoration: underline;">
-                    <strong>{{ brother.pledge_class_year }}</strong>
-                </div>
-                <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" alt="Profile Picture" class="rounded-circle mr-3" width="90" height="90">
-                <div>
-                    <h5 class="mb-1">{{ brother.full_name }}</h5>
-                </div>
-            </div>
-            {% endfor %}
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="font-size: 4rem; color: #BFA100;">Brother Catalog</h2>
+    <form method="POST" class="form-inline justify-content-center mb-4">
+        <div class="form-group mr-2">
+            <input type="text" class="form-control" name="search_term" placeholder="Search by name or pledge class year (i.e. 'Robertson Howard' or '1868')" style="width: 550px;">
         </div>
-        {% else %}
-        <p class="text-center mt-4">No results found</p>
-        {% endif %}
+        <button type="submit" class="btn" style="color: #FFFFFF; background-color: #9A2A2A; border-color: #9A2A2A;">Search</button>
+    </form>
+    {% if results %}
+    <div class="list-group mb-5">
+        {% for brother in results %}
+        <div class="list-group-item list-group-item-action d-flex align-items-center" style="font-size: 1.25rem; cursor: pointer;" onclick="loadBrotherDetails({{ brother.user_id }})">
+            <div class="mr-3" style="text-decoration: underline;">
+                <strong>{{ brother.pledge_class_year }}</strong>
+            </div>
+            <img src="{{ url_for('static', filename='profile_images/' + brother.profile_image) }}" alt="Profile Picture" class="rounded-circle mr-3" width="90" height="90">
+            <div>
+                <h5 class="mb-1">{{ brother.full_name }}</h5>
+            </div>
+        </div>
+        {% endfor %}
     </div>
+    {% else %}
+    <p class="text-center mt-4">No results found</p>
+    {% endif %}
 </div>
 
 <!-- Add this modal structure at the end of the body -->
@@ -50,6 +48,25 @@
 <style>
     h2 {
         font-family: 'Lora', serif;
+    }
+
+    @media (max-width: 768px) {
+        h2 {
+            font-size: 2rem;
+        }
+        .form-control {
+            width: 100%;
+        }
+        .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h2 {
+            font-size: 1.5rem;
+        }
     }
 </style>
 

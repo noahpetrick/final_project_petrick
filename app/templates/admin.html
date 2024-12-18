@@ -2,7 +2,7 @@
 
 {% block navbar %}
 <!-- Admin-specific navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #9A2A2A;">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #9A2A2A;">
     <a class="navbar-brand" href="{{ url_for('admin.view_users') }}">Admin Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,10 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('admin.view_users') }}">Manage Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}" style="color: #BFA100;">Logout</a>
             </li>
         </ul>
     </div>
@@ -21,60 +18,58 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100" style="margin-top: -150px;">
-    <div class="container mt-5">
-        <h1 class="text-center mb-4" style="color: #BFA100; font-family: 'Lora', serif;">Manage Users</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4" style="color: #BFA100; font-family: 'Lora', serif;">Manage Users</h1>
 
-        <!-- Sorting options -->
-        <div class="d-flex justify-content-center mb-4">
-            <a href="{{ url_for('admin.view_users', sort_by='name') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'name' %}active{% endif %}">Sort by Name</a>
-            <a href="{{ url_for('admin.view_users', sort_by='pledge_class_year') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'pledge_class_year' %}active{% endif %}">Sort by Pledge Class Year</a>
-            <a href="{{ url_for('admin.view_users', sort_by='total_points') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'total_points' %}active{% endif %}">Sort by Total SLAG Points</a>
-            <a href="{{ url_for('admin.view_users', sort_by='recent_submission') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'recent_submission' %}active{% endif %}">Sort by Most Recent Submission</a>
-        </div>
-
-        <table class="table table-hover table-bordered">
-            <thead class="thead" style="color: #BFA100; background-color: #FFFFFF;">
-                <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Full Name</th>
-                    <th>Pledge Class Year</th>
-                    <th>Total SLAG Points</th>
-                    <th>Most Recent Submission</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                    {% if user.user_id != 5 %}
-                        <tr>
-                            <td>{{ user.user_id }}</td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.full_name }}</td>
-                            <td>{{ user.pledge_class_year }}</td>
-                            <td>{{ user.total_points }}</td>
-                            <td>
-                                {% if user.recent_submission_date %}
-                                    {{ user.recent_submission_date.strftime('%Y-%m-%d') }}
-                                {% else %}
-                                    No submissions
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="d-flex justify-content-around">
-                                    <a href="{{ url_for('admin.view_user_submissions', user_id=user.user_id) }}" class="btn btn-sm mx-1" style="color: #FFFFFF; background-color: #9A2A2A;" >View SLAGS</a>
-                                    <form action="{{ url_for('admin.delete_user', user_id=user.user_id) }}" method="post" style="display:inline;">
-                                        <button class="btn btn-danger btn-med mx-1" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+    <!-- Sorting options -->
+    <div class="d-flex justify-content-center mb-4">
+        <a href="{{ url_for('admin.view_users', sort_by='name') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'name' %}active{% endif %}">Sort by Name</a>
+        <a href="{{ url_for('admin.view_users', sort_by='pledge_class_year') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'pledge_class_year' %}active{% endif %}">Sort by Pledge Class Year</a>
+        <a href="{{ url_for('admin.view_users', sort_by='total_points') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'total_points' %}active{% endif %}">Sort by Total SLAG Points</a>
+        <a href="{{ url_for('admin.view_users', sort_by='recent_submission') }}" class="btn btn-outline-secondary mx-2 {% if request.args.get('sort_by') == 'recent_submission' %}active{% endif %}">Sort by Most Recent Submission</a>
     </div>
+
+    <table class="table table-hover table-bordered">
+        <thead class="thead" style="color: #BFA100; background-color: #FFFFFF;">
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Pledge Class Year</th>
+                <th>Total SLAG Points</th>
+                <th>Most Recent Submission</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                {% if user.user_id != 5 %}
+                    <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.full_name }}</td>
+                        <td>{{ user.pledge_class_year }}</td>
+                        <td>{{ user.total_points }}</td>
+                        <td>
+                            {% if user.recent_submission_date %}
+                                {{ user.recent_submission_date.strftime('%Y-%m-%d') }}
+                            {% else %}
+                                No submissions
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column flex-sm-row justify-content-around">
+                                <a href="{{ url_for('admin.view_user_submissions', user_id=user.user_id) }}" class="btn btn-sm mx-1 mb-2 mb-sm-0" style="color: #FFFFFF; background-color: #9A2A2A;">View SLAGS</a>
+                                <form action="{{ url_for('admin.delete_user', user_id=user.user_id) }}" method="post" style="display:inline;">
+                                    <button class="btn btn-danger btn-med mx-1 mb-2 mb-sm-0" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 <style>
@@ -83,17 +78,32 @@
         color: white;
     }
 
-    .table {
-        th:nth-child(1), td:nth-child(1), /* User ID column */
-        th:nth-child(2), td:nth-child(2)  /* Username column */ {
-            display: none;
-    }
-
-    .thead th {
+    .table th, .table td {
         text-align: center;
         vertical-align: middle;
     }
 
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem;
+        }
+        .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .table th, .table td {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h1 {
+            font-size: 1.5rem;
+        }
+        .table th, .table td {
+            font-size: 0.8rem;
+        }
+    }
 </style>
 
 {% endblock %}
